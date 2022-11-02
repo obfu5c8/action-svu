@@ -44,6 +44,23 @@ steps:
       ${{ steps.install_svu.outputs.bin_path }} major
 ```
 
+## All options
+
+```yaml
+uses: obfu5c8/action-svu
+with:
+  type: auto
+  force-increment: false
+  tag-mode: current-branch
+  no-metadata: false
+  no-pre-release: false
+  no-build: false
+  strip-prefix: false
+  prefix: 'v'
+  suffix: ''
+  svu-version: 1.9.0
+```
+
 # All Inputs
 
 ## `type`
