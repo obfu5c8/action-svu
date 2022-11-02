@@ -1,0 +1,139 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  ################################################################
+  ## Job: validate
+  ##
+  ##   Run checks, tests & build to ensure everything is kosher
+  ##
+  ################################################################
+  validate:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 16.x
+          cache: "yarn"
+
+      - run: |
+          yarn install --immutable
+      - run: |
+          yarn run-s -ln check test build
+
+  ################################################################
+  ## Job: check-dist
+  ##
+  ##   Ensure that the dist version matches the source
+  ##
+  ################################################################
+  check-dist:
+    name: Verify Distro
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 16.x
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Rebuild the dist/ directory
+        run: |
+          yarn build
+
+      - name: Compare the expected and actual dist/ directories
+        run: |
+          if [ "$(git diff --ignore-space-at-eol dist/ | wc -l)" -gt "0" ]; then
+            echo "Detected uncommitted changes after build.  See status below:"
+            git diff
+            exit 1
+          fi
+        id: diff
+
+      # If index.js was different than expected, upload the expected version as an artifact
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
+        with:
+          name: dist
+          path: dist/
+
+  ################################################################
+  ## Job: test
+  ##
+  ##   Make sure the action works on a clean machine without building
+  ##
+  ################################################################
+  test:
+    name: Run action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Execute action
+        uses: ./
+        id: svu
+        with:
+          force-increment: true
+
+      - name: Assert outputs
+        run: |
+          echo "bin: ${{ steps.svu.outputs.bin_path }}"
+          echo "version: ${{ steps.svu.outputs.version }}"
+
+  ################################################################
+  ## Job: release
+  ##
+  ##   Bump version numbers & tag the source as a release
+  ##
+  ################################################################
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main' && github.event_name == 'push'
+    needs:
+      - validate
+      - check-dist
+      - test
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 ## All history, so we can examine it
+
+      - name: Derive new version
+        id: svu
+        uses: ./
+        with:
+          force-increment: true
+
+      - name: Update version in package.json
+        run: |
+          npm version --no-git-tag-version ${{ steps.svu.outputs.version }}
+
+      - name: Commit & Tag release
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -u
+          git diff --cached
+          git commit -m 'Release ${{ steps.svu.outputs.version }}'
+          git tag ${{ steps.svu.outputs.version }}
+          git push origin ${{ github.ref_name }} --tags
+
+      - name: Create Github Release
+        uses: ncipollo/release-action@v1.11.1
+        with:
+          generateReleaseNotes: true
+          tag: ${{ steps.svu.outputs.version }}
