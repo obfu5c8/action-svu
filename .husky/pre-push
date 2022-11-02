@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+
+git stash --quiet 2>/dev/null || true
+yarn build
+if [ "$(git diff --ignore-space-at-eol dist/ | wc -l)" -gt "0" ]; then
+    echo "You forgot to rebuild dist before comitting. Let me fix that for you"
+    git add -u
+    git commit --amend --no-edit
+    
+fi
+git stash pop --quiet 2>/dev/null || true
