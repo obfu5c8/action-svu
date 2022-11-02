@@ -21,6 +21,13 @@ export async function runActionAsync(): Promise<void> {
   if (inputs.type !== 'none') {
     const output = await executeSvuAsync(inputs, svu)
     core.info(`New version: ${output}`)
+
+    const vbits = output.split('.')
+    const major = vbits[0]
+    const majorminor = [vbits[0], vbits[1]].join('.')
+
     core.setOutput('version', output)
+    core.setOutput('version_major', major)
+    core.setOutput('version_majorminor', majorminor)
   }
 }

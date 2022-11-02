@@ -96,6 +96,8 @@ jobs:
         run: |
           echo "bin: ${{ steps.svu.outputs.bin_path }}"
           echo "version: ${{ steps.svu.outputs.version }}"
+          echo "version_major: ${{ steps.svu.outputs.version_major }}"
+          echo "version_majorminor: ${{ steps.svu.outputs.version_majorminor }}"
 
   ################################################################
   ## Job: release
