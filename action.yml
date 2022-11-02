@@ -1,5 +1,5 @@
-name: "SVU"
-description: "Install & running SVU semver tool"
+name: setup-svu
+description: "Install & use SVU semver tool"
 author: "@obfu5c8"
 runs:
   using: "node16"
