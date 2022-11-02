@@ -141,3 +141,9 @@ jobs:
         with:
           generateReleaseNotes: true
           tag: ${{ steps.svu.outputs.version }}
+
+      - name: Release Tag Updater
+        uses: sersoft-gmbh/running-release-tags-action@v2.1.1
+        with:
+          tag: ${{ steps.svu.outputs.version }}
+          skip-repo-setup: true
