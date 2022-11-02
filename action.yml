@@ -61,5 +61,15 @@ outputs:
   version:
     description: The resulting new version
 
+  version_major:
+    description: |
+      The major component of the new version.
+      If `version` = `v1.2.3`, `version_major` will be `v1`
+
+  version_majorminor:
+    description: |
+      The major + minor components of the new version
+      If `version` = `v1.2.3`, `version_majorminor` will be `v1.2`
+
   bin_path:
     description: The path to the svu binary
