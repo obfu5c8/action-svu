@@ -5,6 +5,7 @@
   "description": "Github action for installing & running SVU semver tool",
   "main": "lib/main.js",
   "scripts": {
+    "prepare": "run-s -ln postinstall",
     "postinstall": "husky install",
     "check": "run-p -ln lint:check format:check type:check",
     "build": "run-s -ln clean build:compile build:dist",
