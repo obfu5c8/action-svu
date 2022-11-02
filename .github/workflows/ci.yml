@@ -147,3 +147,5 @@ jobs:
         with:
           tag: ${{ steps.svu.outputs.version }}
           skip-repo-setup: true
+          create-release: false
+          github-token: ${{secrets.GITHUB_TOKEN}}
