@@ -973,7 +973,7 @@ __metadata:
     eslint-plugin-github: ^4.3.2
     eslint-plugin-i18n-text: ^1.0.1
     eslint-plugin-import: ^2.26.0
-    eslint-plugin-jest: ^25.3.2
+    eslint-plugin-jest: ^27.1.4
     eslint-plugin-no-only-tests: ^3.1.0
     eslint-plugin-prettier: ^4.2.1
     husky: ^8.0.1
@@ -1201,17 +1201,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:^5.0.0":
-  version: 5.42.0
-  resolution: "@typescript-eslint/experimental-utils@npm:5.42.0"
-  dependencies:
-    "@typescript-eslint/utils": 5.42.0
-  peerDependencies:
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  checksum: df8a6b124fc89ce9f81baec35213d2dc482ebd1f15c0bf15469194a97c246b7a66129d94956c8ab3f61a6896821a4365f367aecdc7e73f65c72e517109223e66
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/parser@npm:^5.1.0, @typescript-eslint/parser@npm:^5.42.0":
   version: 5.42.0
   resolution: "@typescript-eslint/parser@npm:5.42.0"
@@ -1281,7 +1270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:5.42.0":
+"@typescript-eslint/utils@npm:5.42.0, @typescript-eslint/utils@npm:^5.10.0":
   version: 5.42.0
   resolution: "@typescript-eslint/utils@npm:5.42.0"
   dependencies:
@@ -2526,20 +2515,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:^25.3.2":
-  version: 25.7.0
-  resolution: "eslint-plugin-jest@npm:25.7.0"
+"eslint-plugin-jest@npm:^27.1.4":
+  version: 27.1.4
+  resolution: "eslint-plugin-jest@npm:27.1.4"
   dependencies:
-    "@typescript-eslint/experimental-utils": ^5.0.0
+    "@typescript-eslint/utils": ^5.10.0
   peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^4.0.0 || ^5.0.0
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+    "@typescript-eslint/eslint-plugin": ^5.0.0
+    eslint: ^7.0.0 || ^8.0.0
   peerDependenciesMeta:
     "@typescript-eslint/eslint-plugin":
       optional: true
     jest:
       optional: true
-  checksum: fc6da96131f4cbf33d15ef911ec8e600ccd71deb97d73c0ca340427cef7b01ff41a797e2e7d1e351abf97321a46ed0c0acff5ee8eeedac94961dd6dad1f718a9
+  checksum: b7e3bf0dc092d9936ac1c10a0aceda411935c411c9323def109c2429ccf8486b3faead80fb769119add578c200352729ff96523bffec083f421e1b151404f642
   languageName: node
   linkType: hard
 
