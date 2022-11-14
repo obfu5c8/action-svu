@@ -139,7 +139,7 @@ jobs:
           git push origin ${{ github.ref_name }} --tags
 
       - name: Create Github Release
-        uses: ncipollo/release-action@v1.11.1
+        uses: ncipollo/release-action@v1.11.2
         with:
           generateReleaseNotes: true
           tag: ${{ steps.svu.outputs.version }}
